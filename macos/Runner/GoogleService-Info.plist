@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>482902116718-ceoog30k6aq8138g6rd6dma60jk1suhq.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.482902116718-ceoog30k6aq8138g6rd6dma60jk1suhq</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>482902116718-nckh91ifrhd4kl45fl7gk9cd4o0th8se.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDEqiaEt34c4HZR1STbcbxuedTMF0qZp_c</string>
+	<key>GCM_SENDER_ID</key>
+	<string>482902116718</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>DoWell.experiments</string>
+	<key>PROJECT_ID</key>
+	<string>search-livinglab-map</string>
+	<key>STORAGE_BUCKET</key>
+	<string>search-livinglab-map.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:482902116718:ios:3923436a310bbfd377997f</string>
+</dict>
+</plist>

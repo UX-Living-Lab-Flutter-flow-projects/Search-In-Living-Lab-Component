@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "482902116718",
+    "project_id": "search-livinglab-map",
+    "storage_bucket": "search-livinglab-map.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:482902116718:android:f39e6fb33be8a67077997f",
+        "android_client_info": {
+          "package_name": "DoWell.experiments"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "482902116718-nckh91ifrhd4kl45fl7gk9cd4o0th8se.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "DoWell.experiments",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "482902116718-n11d5vpr1c6b7nl9os7lp5dm9gqv0s36.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8u3TNaBUVqeAVvXpHgOltqFJmSlXGoW0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "482902116718-n11d5vpr1c6b7nl9os7lp5dm9gqv0s36.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "482902116718-ceoog30k6aq8138g6rd6dma60jk1suhq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "DoWell.experiments"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

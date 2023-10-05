@@ -1,0 +1,6 @@
+package DoWell.experiments
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
