@@ -2128,11 +2128,10 @@ Future launchURLInWebView(
 
 Future openUrl(String url) async {
 // Use the url_launcher package to launch the URL
-  if (await canLaunchUrl(
-      Uri.parse("https://buy.stripe.com/8wMcNf4MKcp55tm6oC"))) {
-    return launchUrl(Uri.parse("https://buy.stripe.com/8wMcNf4MKcp55tm6oC"));
+  if (await canLaunchUrl(Uri.parse(url))) {
+    return launchUrl(Uri.parse(url));
   } else {
-    throw 'Could not launch https://buy.stripe.com/8wMcNf4MKcp55tm6oC';
+    throw 'Could not launch $url';
   }
 }
 // Automatic FlutterFlow imports
@@ -5569,7 +5568,7 @@ class _NearbyLocationsWidgetState extends State<NearbyLocationsWidget> {
                     highlightColor: Colors.transparent,
                     onTap: () async {
                       await openUrl(
-                        ' https://uxlivinglab.com/en/',
+                        'https://uxlivinglab.com/en/',
                       );
                     },
                     child: Row(
@@ -5877,14 +5876,12 @@ class _NearbyLocationsWidgetState extends State<NearbyLocationsWidget> {
                                         ),
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
-                                            6.0, 0.0, 6.0, 24.0),
+                                            6.0, 0.0, 6.0, 0.0),
                                         child: Container(
-                                          width:
-                                              MediaQuery.sizeOf(context).width *
-                                                  0.96,
+                                          width: double.infinity,
                                           height: MediaQuery.sizeOf(context)
                                                   .height *
-                                              0.2,
+                                              0.25,
                                           decoration: BoxDecoration(
                                             color: FlutterFlowTheme.of(context)
                                                 .secondary,
@@ -5908,224 +5905,231 @@ class _NearbyLocationsWidgetState extends State<NearbyLocationsWidget> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                Stack(
-                                                  children: [
-                                                    if (_model.sLocationDropdownValue ==
-                                                            null ||
-                                                        _model.sLocationDropdownValue ==
-                                                            '')
-                                                      Align(
-                                                        alignment:
-                                                            AlignmentDirectional(
-                                                                0.00, 0.00),
-                                                        child:
-                                                            FlutterFlowIconButton(
-                                                          borderColor:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .secondary,
-                                                          borderRadius: 30.0,
-                                                          borderWidth: 0.0,
-                                                          buttonSize: 60.0,
-                                                          fillColor: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .secondaryBackground,
-                                                          icon: Icon(
-                                                            Icons.play_arrow,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .secondary,
-                                                            size: 30.0,
+                                                Expanded(
+                                                  child: Stack(
+                                                    children: [
+                                                      if (_model.sLocationDropdownValue !=
+                                                              null &&
+                                                          _model.sLocationDropdownValue !=
+                                                              '')
+                                                        FutureBuilder<
+                                                            ApiCallResponse>(
+                                                          future:
+                                                              GetCoordinatesCall
+                                                                  .call(
+                                                            location: _model
+                                                                .sLocationDropdownValue,
                                                           ),
-                                                          showLoadingIndicator:
-                                                              true,
-                                                          onPressed: () async {
-                                                            await launchURLInWebView(
-                                                              context,
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .secondaryBackground,
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .primary,
+                                                          builder: (context,
+                                                              snapshot) {
+                                                            // Customize what your widget looks like when it's loading.
+                                                            if (!snapshot
+                                                                .hasData) {
+                                                              return Center(
+                                                                child: SizedBox(
+                                                                  width: 50.0,
+                                                                  height: 50.0,
+                                                                  child:
+                                                                      CircularProgressIndicator(
+                                                                    valueColor:
+                                                                        AlwaysStoppedAnimation<
+                                                                            Color>(
+                                                                      FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primary,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            }
+                                                            final googleMapGetCoordinatesResponse =
+                                                                snapshot.data!;
+                                                            return Builder(
+                                                                builder:
+                                                                    (context) {
+                                                              final _googleMapMarker =
+                                                                  FFAppState()
+                                                                      .location;
+                                                              return FlutterFlowGoogleMap(
+                                                                controller: _model
+                                                                    .googleMapsController1,
+                                                                onCameraIdle: (latLng) =>
+                                                                    setState(() =>
+                                                                        _model.googleMapsCenter1 =
+                                                                            latLng),
+                                                                initialLocation: _model
+                                                                        .googleMapsCenter1 ??=
+                                                                    getLatLng(
+                                                                        formatLng(
+                                                                            GetCoordinatesCall.lat(
+                                                                          googleMapGetCoordinatesResponse
+                                                                              .jsonBody,
+                                                                        ).toString()),
+                                                                        formatLng(GetCoordinatesCall.lng(
+                                                                          googleMapGetCoordinatesResponse
+                                                                              .jsonBody,
+                                                                        ).toString())),
+                                                                markers: [
+                                                                  if (_googleMapMarker !=
+                                                                      null)
+                                                                    FlutterFlowMarker(
+                                                                      _googleMapMarker
+                                                                          .serialize(),
+                                                                      _googleMapMarker,
+                                                                    ),
+                                                                ],
+                                                                markerColor:
+                                                                    GoogleMarkerColor
+                                                                        .green,
+                                                                mapType: MapType
+                                                                    .normal,
+                                                                style:
+                                                                    GoogleMapStyle
+                                                                        .standard,
+                                                                initialZoom:
+                                                                    14.0,
+                                                                allowInteraction:
+                                                                    true,
+                                                                allowZoom: true,
+                                                                showZoomControls:
+                                                                    true,
+                                                                showLocation:
+                                                                    false,
+                                                                showCompass:
+                                                                    false,
+                                                                showMapToolbar:
+                                                                    false,
+                                                                showTraffic:
+                                                                    false,
+                                                                centerMapOnMarkerTap:
+                                                                    true,
+                                                              );
+                                                            });
+                                                          },
+                                                        ),
+                                                      if (_model.sLocationDropdownValue ==
+                                                              null ||
+                                                          _model.sLocationDropdownValue ==
+                                                              '')
+                                                        Align(
+                                                          alignment:
+                                                              AlignmentDirectional(
+                                                                  0.00, 0.00),
+                                                          child:
+                                                              FlutterFlowIconButton(
+                                                            borderColor:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .secondary,
+                                                            borderRadius: 30.0,
+                                                            borderWidth: 0.0,
+                                                            buttonSize: 60.0,
+                                                            fillColor: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryBackground,
+                                                            icon: Icon(
+                                                              Icons.play_arrow,
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .secondary,
+                                                              size: 30.0,
+                                                            ),
+                                                            showLoadingIndicator:
+                                                                true,
+                                                            onPressed:
+                                                                () async {
+                                                              await launchURLInWebView(
+                                                                context,
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .secondaryBackground,
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primary,
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
+                                                      if ((_model.sLocationDropdownValue !=
+                                                                  null &&
+                                                              _model.sLocationDropdownValue !=
+                                                                  '') &&
+                                                          (_model.sSliderRadiusValue !=
+                                                              null))
+                                                        FutureBuilder<
+                                                            ApiCallResponse>(
+                                                          future:
+                                                              GetCoordinatesCall
+                                                                  .call(
+                                                            location: _model
+                                                                .sLocationDropdownValue,
+                                                          ),
+                                                          builder: (context,
+                                                              snapshot) {
+                                                            // Customize what your widget looks like when it's loading.
+                                                            if (!snapshot
+                                                                .hasData) {
+                                                              return Center(
+                                                                child: SizedBox(
+                                                                  width: 50.0,
+                                                                  height: 50.0,
+                                                                  child:
+                                                                      CircularProgressIndicator(
+                                                                    valueColor:
+                                                                        AlwaysStoppedAnimation<
+                                                                            Color>(
+                                                                      FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primary,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            }
+                                                            final livingLabMapGetCoordinatesResponse =
+                                                                snapshot.data!;
+                                                            return Container(
+                                                              width: double
+                                                                  .infinity,
+                                                              height: double
+                                                                  .infinity,
+                                                              child:
+                                                                  LivingLabMap(
+                                                                width: double
+                                                                    .infinity,
+                                                                height: double
+                                                                    .infinity,
+                                                                radius: _model
+                                                                    .sSliderRadiusValue!,
+                                                                target: FFAppState()
+                                                                            .location ==
+                                                                        null
+                                                                    ? getLatLng(
+                                                                        formatCoords(
+                                                                            GetCoordinatesCall.lat(
+                                                                          livingLabMapGetCoordinatesResponse
+                                                                              .jsonBody,
+                                                                        ).toString()),
+                                                                        formatCoords(GetCoordinatesCall.lng(
+                                                                          livingLabMapGetCoordinatesResponse
+                                                                              .jsonBody,
+                                                                        ).toString()))
+                                                                    : FFAppState().location!,
+                                                                center: getLatLng(
+                                                                    formatCoords(GetCoordinatesCall.lat(
+                                                                      livingLabMapGetCoordinatesResponse
+                                                                          .jsonBody,
+                                                                    ).toString()),
+                                                                    formatCoords(GetCoordinatesCall.lng(
+                                                                      livingLabMapGetCoordinatesResponse
+                                                                          .jsonBody,
+                                                                    ).toString())),
+                                                              ),
                                                             );
                                                           },
                                                         ),
-                                                      ),
-                                                    if (_model.sLocationDropdownValue !=
-                                                            null &&
-                                                        _model.sLocationDropdownValue !=
-                                                            '')
-                                                      FutureBuilder<
-                                                          ApiCallResponse>(
-                                                        future:
-                                                            GetCoordinatesCall
-                                                                .call(
-                                                          location: _model
-                                                              .sLocationDropdownValue,
-                                                        ),
-                                                        builder: (context,
-                                                            snapshot) {
-                                                          // Customize what your widget looks like when it's loading.
-                                                          if (!snapshot
-                                                              .hasData) {
-                                                            return Center(
-                                                              child: SizedBox(
-                                                                width: 50.0,
-                                                                height: 50.0,
-                                                                child:
-                                                                    CircularProgressIndicator(
-                                                                  valueColor:
-                                                                      AlwaysStoppedAnimation<
-                                                                          Color>(
-                                                                    FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primary,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            );
-                                                          }
-                                                          final googleMapGetCoordinatesResponse =
-                                                              snapshot.data!;
-                                                          return Builder(
-                                                              builder:
-                                                                  (context) {
-                                                            final _googleMapMarker =
-                                                                FFAppState()
-                                                                    .location;
-                                                            return FlutterFlowGoogleMap(
-                                                              controller: _model
-                                                                  .googleMapsController1,
-                                                              onCameraIdle: (latLng) =>
-                                                                  setState(() =>
-                                                                      _model.googleMapsCenter1 =
-                                                                          latLng),
-                                                              initialLocation: _model
-                                                                      .googleMapsCenter1 ??=
-                                                                  getLatLng(
-                                                                      formatLng(
-                                                                          GetCoordinatesCall
-                                                                              .lat(
-                                                                        googleMapGetCoordinatesResponse
-                                                                            .jsonBody,
-                                                                      ).toString()),
-                                                                      formatLng(GetCoordinatesCall.lng(
-                                                                        googleMapGetCoordinatesResponse
-                                                                            .jsonBody,
-                                                                      ).toString())),
-                                                              markers: [
-                                                                if (_googleMapMarker !=
-                                                                    null)
-                                                                  FlutterFlowMarker(
-                                                                    _googleMapMarker
-                                                                        .serialize(),
-                                                                    _googleMapMarker,
-                                                                  ),
-                                                              ],
-                                                              markerColor:
-                                                                  GoogleMarkerColor
-                                                                      .green,
-                                                              mapType: MapType
-                                                                  .normal,
-                                                              style:
-                                                                  GoogleMapStyle
-                                                                      .standard,
-                                                              initialZoom: 14.0,
-                                                              allowInteraction:
-                                                                  true,
-                                                              allowZoom: true,
-                                                              showZoomControls:
-                                                                  true,
-                                                              showLocation:
-                                                                  false,
-                                                              showCompass:
-                                                                  false,
-                                                              showMapToolbar:
-                                                                  false,
-                                                              showTraffic:
-                                                                  false,
-                                                              centerMapOnMarkerTap:
-                                                                  true,
-                                                            );
-                                                          });
-                                                        },
-                                                      ),
-                                                    FutureBuilder<
-                                                        ApiCallResponse>(
-                                                      future: GetCoordinatesCall
-                                                          .call(
-                                                        location: _model
-                                                            .locationDropdownValue,
-                                                      ),
-                                                      builder:
-                                                          (context, snapshot) {
-                                                        // Customize what your widget looks like when it's loading.
-                                                        if (!snapshot.hasData) {
-                                                          return Center(
-                                                            child: SizedBox(
-                                                              width: 50.0,
-                                                              height: 50.0,
-                                                              child:
-                                                                  CircularProgressIndicator(
-                                                                valueColor:
-                                                                    AlwaysStoppedAnimation<
-                                                                        Color>(
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .primary,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          );
-                                                        }
-                                                        final livingLabMapGetCoordinatesResponse =
-                                                            snapshot.data!;
-                                                        return Container(
-                                                          width:
-                                                              double.infinity,
-                                                          height: 180.0,
-                                                          child: LivingLabMap(
-                                                            width:
-                                                                double.infinity,
-                                                            height: 180.0,
-                                                            radius: _model
-                                                                .sSliderRadiusValue!,
-                                                            target: FFAppState()
-                                                                        .location ==
-                                                                    null
-                                                                ? getLatLng(
-                                                                    formatCoords(GetCoordinatesCall
-                                                                            .lat(
-                                                                      livingLabMapGetCoordinatesResponse
-                                                                          .jsonBody,
-                                                                    )
-                                                                        .toString()),
-                                                                    formatCoords(
-                                                                        GetCoordinatesCall
-                                                                            .lng(
-                                                                      livingLabMapGetCoordinatesResponse
-                                                                          .jsonBody,
-                                                                    ).toString()))
-                                                                : FFAppState().location!,
-                                                            center: getLatLng(
-                                                                formatCoords(
-                                                                    GetCoordinatesCall
-                                                                        .lat(
-                                                                  livingLabMapGetCoordinatesResponse
-                                                                      .jsonBody,
-                                                                ).toString()),
-                                                                formatCoords(
-                                                                    GetCoordinatesCall
-                                                                        .lng(
-                                                                  livingLabMapGetCoordinatesResponse
-                                                                      .jsonBody,
-                                                                ).toString())),
-                                                          ),
-                                                        );
-                                                      },
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -6708,11 +6712,26 @@ class _NearbyLocationsWidgetState extends State<NearbyLocationsWidget> {
                                                                           'https://maps.googleapis.com/maps/api/place/photo?maxwidth=358&photo_reference=${getJsonField(
                                                                         locationResultsItem,
                                                                         r'''$.photo_reference''',
-                                                                      ).toString()}&key=AIzaSyAsH8omDk8y0lSGLTW9YtZiiQ2MkmsF-uQ',
+                                                                      ).toString()}&key=AIzaSyAsH8omDk8y0lSGLTW9YtZiiQ2MkmsF-uQ', // Replace YOUR_API_KEY_HERE with your actual API key
                                                                       width:
                                                                           358.0,
                                                                       fit: BoxFit
                                                                           .cover,
+                                                                      errorWidget:
+                                                                          (context,
+                                                                              url,
+                                                                              error) {
+                                                                        print(
+                                                                            "Error loading image: $error");
+                                                                        return Icon(
+                                                                          Icons
+                                                                              .error,
+                                                                          color:
+                                                                              Colors.red,
+                                                                          size:
+                                                                              150.0,
+                                                                        );
+                                                                      },
                                                                     ),
                                                                   ),
                                                               ],
@@ -7133,8 +7152,11 @@ class _NearbyLocationsWidgetState extends State<NearbyLocationsWidget> {
                                                                 ? (MediaQuery.sizeOf(
                                                                             context)
                                                                         .height *
-                                                                    0.2)
-                                                                : 290.0,
+                                                                    0.35)
+                                                                : (MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .height *
+                                                                    0.4),
                                                             decoration:
                                                                 BoxDecoration(
                                                               color: FlutterFlowTheme
@@ -7169,7 +7191,7 @@ class _NearbyLocationsWidgetState extends State<NearbyLocationsWidget> {
                                                               child: Column(
                                                                 mainAxisSize:
                                                                     MainAxisSize
-                                                                        .max,
+                                                                        .min,
                                                                 mainAxisAlignment:
                                                                     MainAxisAlignment
                                                                         .center,
